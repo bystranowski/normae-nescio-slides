@@ -1061,17 +1061,10 @@
         }
       });
       document.addEventListener("click", (e) => {
-        if (!e.target.closest(".progress")) goTo(cur + 1);
+        if (e.target.closest(".progress")) return;
+        const left = e.clientX < window.innerWidth * 0.2;
+        goTo(cur + (left ? -1 : 1));
       });
-
-      let touchStartX = 0;
-      document.addEventListener("touchstart", (e) => {
-        touchStartX = e.touches[0].clientX;
-      }, { passive: true });
-      document.addEventListener("touchend", (e) => {
-        const dx = e.changedTouches[0].clientX - touchStartX;
-        if (Math.abs(dx) > 40) goTo(cur + (dx < 0 ? 1 : -1));
-      }, { passive: true });
     </script>
   </body>
 </html>
