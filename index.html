@@ -1,0 +1,1067 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>NormaeNescio — ERC Starting Grant 2026</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --cog: #c94e1e;
+        --int: #1e8050;
+        --jud: #6b3fb5;
+        --found: #1d66a8;
+        --synth: #a06020;
+        --bg: #f9f8f5; /* warm off-white */
+        --ink: #0f172a;
+        --ink2: #4b5563;
+        --ink3: #9ca3af;
+        --card: #efede8;
+        --card-b: #dddbd4;
+      }
+
+      html,
+      body {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background: #070c14;
+        font-family:
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          "Helvetica Neue",
+          Arial,
+          sans-serif;
+      }
+
+      .slide {
+        position: absolute;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .slide.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      /* ── Shared large title used on slides 3–5 ── */
+      .slide-title {
+        font-size: clamp(2.4rem, 5vw, 4rem);
+        font-weight: 700;
+        color: var(--ink);
+        text-align: center;
+        flex-shrink: 0;
+      }
+
+      /* ── Progress ── */
+      .progress {
+        position: fixed;
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+        z-index: 9999;
+      }
+      .dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition:
+          background 0.3s,
+          transform 0.3s;
+      }
+      .dot.active {
+        transform: scale(1.5);
+      }
+      .nav-hint {
+        position: fixed;
+        bottom: 12px;
+        right: 24px;
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+      }
+
+      /* ══════════════════════════════════════════════
+   SLIDE 1 — HOOK  (dark)
+══════════════════════════════════════════════ */
+      #s1 {
+        background: radial-gradient(
+          ellipse 75% 65% at 50% 42%,
+          #0e1c2e 0%,
+          #05090f 100%
+        );
+        padding: 2vh 5vw 1.5vh;
+        gap: 1.2vh;
+        justify-content: flex-start; /* push content upward */
+      }
+      .hook-q {
+        padding-top: 3vh;
+        font-style: italic;
+        font-size: clamp(1.8rem, 3.5vw, 3rem);
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.93);
+        letter-spacing: -0.3px;
+        flex-shrink: 0;
+      }
+
+      /* Vineyard: straight, ordered, equal-width columns  */
+      /* Container gets its height from flex:1 in the slide column */
+      .screenshots {
+        position: relative;
+        flex: 1;
+        min-height: 0;
+        width: 100%;
+        max-height: 80%;
+      }
+      /* Each image absolutely placed — all stay within 0–100vw */
+      .screenshot {
+        position: absolute;
+        width: 45vw;
+        max-height: 37vh; /* hard cap so bottom positions stay predictable */
+        display: block;
+        object-fit: contain;
+        object-position: top;
+        border-radius: 10px;
+        box-shadow:
+          0 16px 56px rgba(0, 0, 0, 0.65),
+          0 0 0 1px rgba(255, 255, 255, 0.08);
+      }
+      /* Horizontal spans (all within 0–100vw):
+           img1: 0–48vw  |  img2: 26–74vw  |  img3: 52–100vw
+         Vertical: img1 top, img3 slightly lower, img2 at bottom —
+         no vertical overlap in the shared x-regions               */
+      .screenshot:nth-child(1) {
+        left: 0;
+        top: 2%;
+      }
+      .screenshot:nth-child(2) {
+        left: 6vw;
+        top: 62%;
+      }
+      .screenshot:nth-child(3) {
+        right: 0;
+        top: 32%;
+      }
+      .hook-cap {
+        font-size: clamp(0.78rem, 1.2vw, 0.95rem);
+        color: rgba(255, 255, 255, 0.32);
+        font-style: italic;
+        flex-shrink: 0;
+      }
+
+      /* ══════════════════════════════════════════════
+   SLIDE 2 — TITLE  (warm off-white)
+══════════════════════════════════════════════ */
+      #s2 {
+        background: var(--bg);
+        gap: 0;
+        text-align: center;
+      }
+      .t-eyebrow {
+        font-size: clamp(0.68rem, 1vw, 0.88rem);
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--ink3);
+        margin-bottom: clamp(14px, 2.5vh, 28px);
+      }
+      /* inline-flex shrinks to content width; parent flex centers it on slide */
+      .t-main {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: clamp(24px, 4vh, 46px);
+      }
+      /* The three rows: Normae, slash, Nescio — each stepped right */
+      .t-row {
+        display: block;
+        white-space: nowrap;
+        line-height: 0.9;
+      }
+      .t-row.r1 {
+        margin-left: 0;
+      }
+      /* slash row: halfway between the two Ns */
+      .t-row.r2 {
+        margin-left: clamp(2rem, 8.2vw, 8.2rem);
+        line-height: 0.6;
+      }
+      /* Nescio row: indented right, pulled up to overlap with the slash */
+      .t-row.r3 {
+        margin-left: clamp(0.4rem, 9.5vw, 9.8rem);
+        margin-top: clamp(-4.2rem, -1.5vw, -1.8rem);
+      }
+
+      /* N initial */
+      .t-n {
+        font-size: clamp(4.8rem, 13vw, 11rem);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        display: inline;
+        vertical-align: baseline;
+        background: linear-gradient(
+          130deg,
+          var(--found) 0%,
+          var(--jud) 50%,
+          var(--cog) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      /* rest of word */
+      .t-rest {
+        font-size: clamp(3.2rem, 9vw, 7.5rem);
+        font-weight: 200;
+        letter-spacing: -0.02em;
+        display: inline;
+        vertical-align: baseline;
+        color: var(--ink2);
+      }
+      /* "/" — gradient-coloured, moderate weight, feels like a letterform */
+      .t-slash {
+        font-size: clamp(1.5rem, 3.8vw, 3.2rem);
+        font-weight: 300;
+        display: inline;
+        background: linear-gradient(
+          130deg,
+          var(--found) 0%,
+          var(--jud) 50%,
+          var(--cog) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .t-fulltitle {
+        text-align: center;
+        margin-top: clamp(8px, 1.4vh, 16px);
+        margin-bottom: clamp(10px, 2vh, 22px);
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .t-fulltitle .ft-l1 {
+        font-size: clamp(1rem, 1.7vw, 1.45rem);
+        font-weight: 600;
+        color: var(--ink);
+        letter-spacing: 0.01em;
+      }
+      .t-fulltitle .ft-l2 {
+        font-size: clamp(0.78rem, 1.2vw, 1rem);
+        font-weight: 400;
+        color: var(--ink2);
+        letter-spacing: 0.03em;
+      }
+      .t-divider {
+        width: 56px;
+        height: 2px;
+        background: linear-gradient(90deg, var(--found), var(--cog));
+        border-radius: 2px;
+        margin: 0 auto clamp(18px, 3.5vh, 38px);
+      }
+      .t-pi {
+        font-size: clamp(1.1rem, 2.2vw, 1.8rem);
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 5px;
+      }
+      .t-affil {
+        font-size: clamp(0.85rem, 1.5vw, 1.25rem);
+        color: var(--ink2);
+      }
+      .t-badge {
+        display: inline-block;
+        margin-top: clamp(16px, 2.8vh, 32px);
+        padding: 9px 26px;
+        border: 1.5px solid var(--card-b);
+        border-radius: 40px;
+        font-size: clamp(0.72rem, 1.1vw, 0.9rem);
+        color: var(--ink3);
+        letter-spacing: 0.5px;
+      }
+
+      /* ══════════════════════════════════════════════
+   SLIDE 3 — STRUCTURE  (warm off-white)
+══════════════════════════════════════════════ */
+      #s3,
+      #s3b,
+      #s3c {
+        background: var(--bg);
+        gap: 2vh;
+        padding: 4vh 5vw;
+      }
+      .s3-sub {
+        font-size: clamp(0.65rem, 1vw, 0.8rem);
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--ink3);
+      }
+
+      .dg-wrap {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-height: 0;
+        overflow: visible;
+      }
+      .dg {
+        position: relative;
+        width: 1000px;
+        height: 640px;
+        flex-shrink: 0;
+        transform-origin: center center;
+      }
+
+      .nd {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        line-height: 1.3;
+        opacity: 0;
+        transform: scale(0.65);
+        transition:
+          opacity 0.5s ease,
+          transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .nd.vis {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .nd b {
+        font-size: 18px;
+        font-weight: 700;
+        display: block;
+        margin-bottom: 6px;
+      }
+      .nd small {
+        font-size: 14px;
+      }
+
+      .nd-circle {
+        border-radius: 50%;
+        padding: 18px;
+        width: 200px;
+        height: 200px;
+      }
+      .n-c {
+        left: 70px;
+        top: 100px;
+        background: #fff3ed;
+        border: 2.5px solid var(--cog);
+        color: var(--cog);
+      }
+      .n-i {
+        right: 70px;
+        top: 100px;
+        background: #f0faf4;
+        border: 2.5px solid var(--int);
+        color: var(--int);
+      }
+      .n-j {
+        left: 400px;
+        top: 360px;
+        background: #f5f0ff;
+        border: 2.5px solid var(--jud);
+        color: var(--jud);
+      }
+
+      .nd-pill {
+        border-radius: 24px;
+        padding: 0 20px;
+        flex-direction: row;
+        gap: 8px;
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .n-f {
+        width: 200px;
+        height: 46px;
+        left: 400px;
+        top: 6px;
+        background: #eff6ff;
+        border: 2px solid var(--found);
+        color: var(--found);
+      }
+      .n-s {
+        width: 270px;
+        height: 46px;
+        left: 365px;
+        top: 586px;
+        background: #fef9f0;
+        border: 2px solid var(--synth);
+        color: var(--synth);
+      }
+
+      /* Slide 3c: fade C/I/J so F and S dominate */
+      #s3c .nd-circle {
+        opacity: 0.28;
+      }
+
+      .dg-svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: visible;
+      }
+      .ap {
+        fill: none;
+        stroke: rgba(0, 0, 0, 0.14);
+        stroke-width: 1.5;
+        stroke-dasharray: 6 5;
+        opacity: 0;
+        transition: opacity 0.55s ease;
+      }
+      .ap.vis {
+        opacity: 1;
+      }
+
+      /* ══════════════════════════════════════════════
+   SLIDE 4 — TIMELINESS  (warm off-white)
+══════════════════════════════════════════════ */
+      #s4 {
+        background: var(--bg);
+        gap: clamp(12px, 2vh, 24px);
+        padding: 4vh 5vw;
+      }
+      .s4-quote {
+        font-size: clamp(0.82rem, 1.3vw, 1.05rem);
+        color: var(--ink3);
+        font-style: italic;
+        text-align: center;
+        max-width: min(760px, 80vw);
+      }
+      .two-cols {
+        display: flex;
+        gap: clamp(10px, 1.8vw, 22px);
+        width: 100%;
+        max-width: min(1200px, 94vw);
+      }
+      .col {
+        flex: 1;
+        background: var(--card);
+        border-radius: 14px;
+        padding: clamp(16px, 2.2vh, 30px) clamp(18px, 2.2vw, 32px);
+        border: 1.5px solid var(--card-b);
+      }
+      .col-h {
+        font-size: clamp(0.95rem, 1.7vw, 1.4rem);
+        font-weight: 700;
+        margin-bottom: clamp(8px, 1.4vh, 16px);
+      }
+      .col-sci .col-h {
+        color: var(--found);
+      }
+      .col-world .col-h {
+        color: var(--cog);
+      }
+      .col ul {
+        list-style: none;
+        font-size: clamp(0.82rem, 1.35vw, 1.08rem);
+        color: var(--ink2);
+        line-height: 1.8;
+      }
+      .col ul li::before {
+        content: "– ";
+        color: var(--ink3);
+      }
+      .col ul li + li {
+        margin-top: 2px;
+      }
+      .mismatch {
+        width: 100%;
+        max-width: min(1200px, 94vw);
+        padding: clamp(11px, 1.6vh, 18px) clamp(18px, 2.8vw, 40px);
+        background: linear-gradient(90deg, #e8f0fa, #fdf0e8);
+        border-radius: 10px;
+        border-left: 3px solid var(--found);
+        border-right: 3px solid var(--cog);
+        font-size: clamp(1rem, 1.65vw, 1.3rem);
+        text-align: center;
+        color: var(--ink2);
+      }
+      .mismatch strong {
+        color: var(--ink);
+        font-weight: 700;
+      }
+
+      /* ══════════════════════════════════════════════
+   SLIDE 5 — PI  (warm off-white)
+══════════════════════════════════════════════ */
+      #s5 {
+        background: var(--bg);
+        gap: clamp(12px, 2vh, 24px);
+        padding: 4vh 5vw;
+      }
+      .pi-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: clamp(10px, 1.4vw, 18px);
+        width: 100%;
+        max-width: min(1200px, 94vw);
+      }
+      .pi-card {
+        background: var(--card);
+        border-radius: 12px;
+        padding: clamp(14px, 1.8vh, 24px) clamp(16px, 2vw, 26px);
+        border: 1.5px solid var(--card-b);
+      }
+      .pi-card.full {
+        grid-column: 1/-1;
+        background: #edf7f1;
+        border-color: #b0d9be;
+      }
+      .pi-lbl {
+        font-size: clamp(0.58rem, 0.88vw, 0.74rem);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--ink3);
+        margin-bottom: 7px;
+      }
+      .pi-val {
+        font-size: clamp(0.88rem, 1.35vw, 1.1rem);
+        color: var(--ink2);
+        line-height: 1.6;
+      }
+      .pi-card.full .pi-val {
+        color: #1a6640;
+        font-size: clamp(0.95rem, 1.45vw, 1.2rem);
+      }
+
+      /* ══════════════════════════════════════════════
+   SLIDE 6 — CLOSING  (warm off-white)
+══════════════════════════════════════════════ */
+      #s6 {
+        background: var(--bg);
+        gap: clamp(12px, 2vh, 24px);
+        padding: 4vh 5vw;
+      }
+      .cl-eyebrow {
+        font-size: clamp(0.62rem, 0.9vw, 0.78rem);
+        letter-spacing: 3.5px;
+        text-transform: uppercase;
+        color: var(--ink3);
+        margin-bottom: clamp(6px, 1vh, 12px);
+      }
+      .cl-question {
+        font-size: clamp(1.6rem, 3.2vw, 2.7rem);
+        font-weight: 300;
+        color: var(--ink);
+        text-align: center;
+        line-height: 1.65;
+        max-width: min(900px, 88vw);
+      }
+      .cl-divider {
+        width: clamp(40px, 6vw, 80px);
+        height: 2px;
+        background: var(--card-b);
+        border-radius: 2px;
+        margin: clamp(8px, 1.5vh, 20px) 0;
+      }
+      .cl-pi {
+        font-size: clamp(1.1rem, 2vw, 1.7rem);
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: -0.2px;
+      }
+      .cl-affil {
+        font-size: clamp(0.8rem, 1.3vw, 1.1rem);
+        color: var(--ink2);
+        margin-top: 4px;
+      }
+      .cl-grant {
+        font-size: clamp(0.72rem, 1.1vw, 0.92rem);
+        color: var(--ink3);
+        letter-spacing: 0.5px;
+        margin-top: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ══ SLIDE 1: HOOK (dark) ══════════════════ -->
+    <section class="slide" id="s1">
+      <div class="hook-q">What are the norms?</div>
+      <div class="screenshots">
+        <img class="screenshot" src="slides/Selection_955.png" alt="" />
+        <img class="screenshot" src="slides/Selection_955a.png" alt="" />
+        <img class="screenshot" src="slides/Selection_955b.png" alt="" />
+      </div>
+      <!-- <div class="hook-cap">
+        Real people, genuinely uncertain about the norms governing AI use in
+        grant writing
+      </div> -->
+    </section>
+
+    <!-- ══ SLIDE 2: TITLE (warm off-white) ══════ -->
+    <section class="slide" id="s2">
+      <div class="t-eyebrow">ERC Starting Grant 2026</div>
+      <div class="t-main">
+        <div class="t-row r1">
+          <span class="t-n">N</span><span class="t-rest">ormae</span>
+        </div>
+        <div class="t-row r2"><span class="t-slash">/</span></div>
+        <div class="t-row r3">
+          <span class="t-n">N</span><span class="t-rest">escio</span>
+        </div>
+      </div>
+      <div class="t-fulltitle">
+        <span class="ft-l1">Normative Ignorance in Complex Societies</span>
+        <span class="ft-l2"
+          >Cognition, Interaction, and Judgment for Law and Policy</span
+        >
+      </div>
+      <div class="t-divider"></div>
+      <div class="t-pi">Piotr Bystranowski</div>
+      <div class="t-affil">
+        Jagiellonian University in Kraków &thinsp;·&thinsp; 60 months
+      </div>
+      <!-- <div class="t-badge">What happens when people don't know the rules?</div> -->
+    </section>
+
+    <!-- ══ SLIDE 3: STRUCTURE (warm off-white) ══ -->
+    <section class="slide" id="s3">
+      <div class="slide-title">Three Perspectives on Normative Ignorance</div>
+      <div class="s3-sub">
+        Cognition &thinsp;·&thinsp; Interaction &thinsp;·&thinsp; Judgment
+      </div>
+      <div class="dg-wrap">
+        <div class="dg" id="dg">
+          <svg class="dg-svg" viewBox="0 0 1000 640">
+            <defs>
+              <marker
+                id="ah"
+                markerWidth="7"
+                markerHeight="5"
+                refX="6"
+                refY="2.5"
+                orient="auto"
+              >
+                <polygon points="0 0,7 2.5,0 5" fill="rgba(0,0,0,.28)" />
+              </marker>
+            </defs>
+            <path
+              class="ap"
+              id="a-ci"
+              d="M 258 148 Q 500 62 742 148"
+              marker-end="url(#ah)"
+            />
+            <path
+              class="ap"
+              id="a-ij"
+              d="M 872 268 Q 850 390 602 452"
+              marker-end="url(#ah)"
+            />
+            <path
+              class="ap"
+              id="a-jc"
+              d="M 398 452 Q 150 390 128 268"
+              marker-end="url(#ah)"
+            />
+          </svg>
+          <div class="nd nd-circle n-c" id="n-c">
+            <b>Cognition</b>
+            <small
+              >Rule recognition<br />Rule inference<br />Learning
+              investment</small
+            >
+          </div>
+          <div class="nd nd-circle n-i" id="n-i">
+            <b>Interaction</b>
+            <small
+              >Coordination<br />Knowledge exploitation<br />Norm
+              transmission</small
+            >
+          </div>
+          <div class="nd nd-circle n-j" id="n-j">
+            <b>Judgment</b>
+            <small
+              >Excuse vs. aggravation<br />Discoverability<br />Cross-cultural
+              variation</small
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 3b: STRUCTURE — METHODS (warm off-white) ══ -->
+    <section class="slide" id="s3b">
+      <div class="slide-title">Three Perspectives on Normative Ignorance</div>
+      <div class="s3-sub">
+        Cognition &thinsp;·&thinsp; Interaction &thinsp;·&thinsp; Judgment
+      </div>
+      <div class="dg-wrap">
+        <div class="dg" id="dg-b">
+          <svg class="dg-svg" viewBox="0 0 1000 640">
+            <defs>
+              <marker
+                id="ah-b"
+                markerWidth="7"
+                markerHeight="5"
+                refX="6"
+                refY="2.5"
+                orient="auto"
+              >
+                <polygon points="0 0,7 2.5,0 5" fill="rgba(0,0,0,.28)" />
+              </marker>
+            </defs>
+            <path
+              class="ap vis"
+              d="M 258 148 Q 500 62 742 148"
+              marker-end="url(#ah-b)"
+            />
+            <path
+              class="ap vis"
+              d="M 872 268 Q 850 390 602 452"
+              marker-end="url(#ah-b)"
+            />
+            <path
+              class="ap vis"
+              d="M 398 452 Q 150 390 128 268"
+              marker-end="url(#ah-b)"
+            />
+          </svg>
+          <div class="nd nd-circle n-c vis">
+            <b>Cognition</b>
+            <small>Process tracing<br />Bayesian modelling</small>
+          </div>
+          <div class="nd nd-circle n-i vis">
+            <b>Interaction</b>
+            <small>Incentivized games</small>
+          </div>
+          <div class="nd nd-circle n-j vis">
+            <b>Judgment</b>
+            <small>Vignette surveys<br />Cross-experimental studies</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 3c: STRUCTURE — FULL (warm off-white) ══ -->
+    <section class="slide" id="s3c">
+      <div class="slide-title">Three Perspectives on Normative Ignorance</div>
+      <div class="s3-sub">
+        Cognition &thinsp;·&thinsp; Interaction &thinsp;·&thinsp; Judgment
+      </div>
+      <div class="dg-wrap">
+        <div class="dg" id="dg-c">
+          <svg class="dg-svg" viewBox="0 0 1000 640">
+            <defs>
+              <marker
+                id="ah-c"
+                markerWidth="7"
+                markerHeight="5"
+                refX="6"
+                refY="2.5"
+                orient="auto"
+              >
+                <polygon points="0 0,7 2.5,0 5" fill="rgba(0,0,0,.28)" />
+              </marker>
+            </defs>
+            <!-- C–I–J arrows: immediately visible -->
+            <path
+              class="ap vis"
+              d="M 258 148 Q 500 62 742 148"
+              marker-end="url(#ah-c)"
+            />
+            <path
+              class="ap vis"
+              d="M 872 268 Q 850 390 602 452"
+              marker-end="url(#ah-c)"
+            />
+            <path
+              class="ap vis"
+              d="M 398 452 Q 150 390 128 268"
+              marker-end="url(#ah-c)"
+            />
+            <!-- F arrows: animated -->
+            <line
+              class="ap"
+              id="a-fc-c"
+              x1="425"
+              y1="52"
+              x2="185"
+              y2="108"
+              marker-end="url(#ah-c)"
+            />
+            <line
+              class="ap"
+              id="a-fi-c"
+              x1="575"
+              y1="52"
+              x2="815"
+              y2="108"
+              marker-end="url(#ah-c)"
+            />
+            <!-- S arrows: animated -->
+            <path
+              class="ap"
+              id="a-cs-c"
+              d="M 180 298 Q 236 500 392 586"
+              marker-end="url(#ah-c)"
+            />
+            <path
+              class="ap"
+              id="a-is-c"
+              d="M 820 298 Q 764 500 608 586"
+              marker-end="url(#ah-c)"
+            />
+            <line
+              class="ap"
+              id="a-js-c"
+              x1="500"
+              y1="560"
+              x2="500"
+              y2="586"
+              marker-end="url(#ah-c)"
+            />
+          </svg>
+          <div class="nd nd-circle n-c vis"><b>Cognition</b></div>
+          <div class="nd nd-circle n-i vis"><b>Interaction</b></div>
+          <div class="nd nd-circle n-j vis"><b>Judgment</b></div>
+          <div class="nd nd-pill n-f" id="n-fc">Foundations</div>
+          <div class="nd nd-pill n-s" id="n-sc">
+            Synthesis &rarr; <strong>Law &amp; Policy</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 4: TIMELINESS (warm off-white) ═ -->
+    <section class="slide" id="s4">
+      <div class="slide-title">Why Now?</div>
+      <div class="s4-quote">
+        "Paleolithic normative cognition meets 21st-century normative
+        complexity"
+      </div>
+      <div class="two-cols">
+        <div class="col col-sci">
+          <div class="col-h">A new science is there</div>
+          <ul>
+            <li>
+              Humans are <em>normative animals</em> — specialized mechanisms
+              acquire norms from minimal cues
+            </li>
+            <li>
+              Almost all research covers children learning norms of
+              <em>their own</em> community
+            </li>
+            <li>
+              <strong
+                >No unified empirical account of normative ignorance</strong
+              >
+              yet exists
+            </li>
+          </ul>
+        </div>
+        <div class="col col-world">
+          <div class="col-h">The world has transformed</div>
+          <ul>
+            <li>
+              Migration, globalization, digital life place us daily in
+              unfamiliar normative environments
+            </li>
+            <li>Legal complexity grows faster than anyone can track</li>
+            <li>
+              Platform norms —
+              <strong>algorithmically enforced, opaque</strong>, fast-changing
+            </li>
+            <li>
+              Normative ignorance is no longer the exception — it is the rule
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="mismatch">
+        People are routinely <strong>held responsible</strong> under assumptions
+        of knowledge that no longer hold.
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 5: PI (warm off-white) ═════════ -->
+    <section class="slide" id="s5">
+      <div class="slide-title">Why Me?</div>
+      <div class="pi-grid">
+        <div class="pi-card full">
+          <div class="pi-lbl">Who I am</div>
+          <div class="pi-val">
+            Trained in law, philosophy, and law &amp; economics — but
+            experiments are what I actually do. After years as a researcher on
+            ERC <em>Biouncertainty</em> and a postdoc at Max Planck (Bonn), I
+            now lead my own NCN project on ignorance of law, working alongside
+            and supervising
+            <strong>cognitive scientists and experimental economists</strong>.
+          </div>
+        </div>
+        <div class="pi-card full">
+          <div class="pi-lbl">Why this project</div>
+          <div class="pi-val">
+            I currently run two interdisciplinary teams — one with cognitive
+            scientists, one with a linguist co-PI. <em>NormaeNescio</em> demands
+            exactly that kind of coordination across methods and disciplines.
+            <strong>This is what I have been building toward.</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 6: CLOSING ══════════════════════ -->
+    <section class="slide" id="s6">
+      <div class="cl-eyebrow">The central question</div>
+      <div class="cl-question">
+        How does human normative cognition,<br />evolved for small-scale
+        environments,<br />cope with today's unprecedented<br /><strong
+          >normative complexity?</strong
+        >
+      </div>
+      <div class="cl-divider"></div>
+      <div class="cl-pi">Piotr Bystranowski</div>
+      <div class="cl-affil">Jagiellonian University</div>
+      <div class="cl-grant">
+        <em>NormaeNescio</em> &thinsp;·&thinsp; ERC Starting Grant 2026
+      </div>
+    </section>
+
+    <div class="progress" id="progress"></div>
+    <div class="nav-hint" id="nav-hint">→ / space</div>
+
+    <script>
+      const slides = [...document.querySelectorAll(".slide")];
+      const prog = document.getElementById("progress");
+      const hint = document.getElementById("nav-hint");
+      let cur = 0,
+        s3done = false,
+        s3cdone = false;
+
+      function setTheme(dark) {
+        const active = dark ? "rgba(255,255,255,.85)" : "rgba(0,0,0,.6)";
+        const idle = dark ? "rgba(255,255,255,.25)" : "rgba(0,0,0,.18)";
+        prog.querySelectorAll(".dot").forEach((d) => {
+          d.style.background = d.classList.contains("active") ? active : idle;
+        });
+        hint.style.color = dark ? "rgba(255,255,255,.18)" : "rgba(0,0,0,.18)";
+      }
+
+      slides.forEach((_, i) => {
+        const d = document.createElement("div");
+        d.className = "dot";
+        d.addEventListener("click", (e) => {
+          e.stopPropagation();
+          goTo(i);
+        });
+        prog.appendChild(d);
+      });
+
+      function refreshDots() {
+        prog
+          .querySelectorAll(".dot")
+          .forEach((d, i) => d.classList.toggle("active", i === cur));
+        setTheme(cur === 0);
+      }
+
+      /* Scale all 1000×640 diagrams to fill available space */
+      function scaleDiagram() {
+        document.querySelectorAll(".dg-wrap").forEach((wrap) => {
+          const dg = wrap.querySelector(".dg");
+          if (!wrap || !dg) return;
+          const scale = Math.min(
+            (wrap.clientWidth * 0.95) / 1000,
+            (wrap.clientHeight * 0.95) / 640,
+          );
+          dg.style.transform = `scale(${Math.min(scale, 1.15)})`;
+        });
+      }
+      window.addEventListener("resize", scaleDiagram);
+
+      function animateS3() {
+        if (s3done) return;
+        s3done = true;
+        const show = (id, ms) =>
+          setTimeout(
+            () => document.getElementById(id)?.classList.add("vis"),
+            ms,
+          );
+        show("n-c", 150);
+        show("n-i", 310);
+        show("a-ci", 650);
+        show("n-j", 900);
+        show("a-ij", 1180);
+        show("a-jc", 1310);
+      }
+
+      function animateS3c() {
+        if (s3cdone) return;
+        s3cdone = true;
+        const show = (id, ms) =>
+          setTimeout(
+            () => document.getElementById(id)?.classList.add("vis"),
+            ms,
+          );
+        show("n-fc", 300);
+        show("a-fc-c", 520);
+        show("a-fi-c", 640);
+        show("n-sc", 1300);
+        show("a-cs-c", 1520);
+        show("a-is-c", 1640);
+        show("a-js-c", 1700);
+      }
+
+      function goTo(n) {
+        slides[cur].classList.remove("active");
+        cur = Math.max(0, Math.min(n, slides.length - 1));
+        slides[cur].classList.add("active");
+        refreshDots();
+        if (cur === 2) {
+          scaleDiagram();
+          animateS3();
+        }
+        if (cur === 3) {
+          scaleDiagram();
+        }
+        if (cur === 4) {
+          scaleDiagram();
+          animateS3c();
+        }
+      }
+
+      slides[0].classList.add("active");
+      refreshDots();
+
+      document.addEventListener("keydown", (e) => {
+        if ([" ", "ArrowRight", "ArrowDown"].includes(e.key)) {
+          e.preventDefault();
+          goTo(cur + 1);
+        }
+        if (["ArrowLeft", "ArrowUp"].includes(e.key)) {
+          e.preventDefault();
+          goTo(cur - 1);
+        }
+      });
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".progress")) goTo(cur + 1);
+      });
+    </script>
+  </body>
+</html>
