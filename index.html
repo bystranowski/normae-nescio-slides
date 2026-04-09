@@ -440,11 +440,11 @@
       }
 
       /* ══════════════════════════════════════════════
-   SLIDE 4 — TIMELINESS  (warm off-white)
+   SLIDES 4a–4c — TIMELINESS  (warm off-white)
 ══════════════════════════════════════════════ */
-      #s4 {
+      #s4a, #s4b, #s4c {
         background: var(--bg);
-        gap: clamp(12px, 2vh, 24px);
+        gap: clamp(10px, 1.8vh, 20px);
         padding: 4vh 5vw;
       }
       .s4-quote {
@@ -464,48 +464,93 @@
         flex: 1;
         background: var(--card);
         border-radius: 14px;
-        padding: clamp(16px, 2.2vh, 30px) clamp(18px, 2.2vw, 32px);
+        padding: clamp(14px, 2vh, 26px) clamp(16px, 2vw, 28px);
         border: 1.5px solid var(--card-b);
       }
       .col-h {
         font-size: clamp(0.95rem, 1.7vw, 1.4rem);
         font-weight: 700;
-        margin-bottom: clamp(8px, 1.4vh, 16px);
+        margin-bottom: clamp(8px, 1.2vh, 14px);
       }
-      .col-sci .col-h {
-        color: var(--found);
-      }
-      .col-world .col-h {
-        color: var(--cog);
-      }
+      .col-sci .col-h { color: var(--found); }
+      .col-world .col-h { color: var(--cog); }
       .col ul {
         list-style: none;
-        font-size: clamp(0.82rem, 1.35vw, 1.08rem);
-        color: var(--ink2);
-        line-height: 1.8;
+        font-size: clamp(0.82rem, 1.3vw, 1.05rem);
+        line-height: 1.7;
       }
-      .col ul li::before {
+      /* First-level bullets — spoken text */
+      .col ul > li {
+        color: var(--ink);
+        font-weight: 600;
+        margin-top: 4px;
+      }
+      .col ul > li::before {
+        content: "▸ ";
+        color: var(--ink3);
+        font-weight: 400;
+      }
+      /* Second-level bullets — detail/examples */
+      .col ul .sub {
+        margin: 2px 0 4px 1.1em;
+      }
+      .col ul .sub li {
+        color: var(--ink2);
+        font-weight: 400;
+        font-size: 0.91em;
+        line-height: 1.55;
+      }
+      .col ul .sub li::before {
         content: "– ";
         color: var(--ink3);
       }
-      .col ul li + li {
-        margin-top: 2px;
+      /* Right column — hidden until animated in */
+      .s4-col-r {
+        opacity: 0;
+        transition: opacity 0.6s ease;
       }
-      .mismatch {
+      .s4-col-r.vis { opacity: 1; }
+      /* Impact boxes */
+      .impact-boxes {
+        display: flex;
+        gap: clamp(10px, 1.8vw, 22px);
         width: 100%;
         max-width: min(1200px, 94vw);
-        padding: clamp(11px, 1.6vh, 18px) clamp(18px, 2.8vw, 40px);
-        background: linear-gradient(90deg, #e8f0fa, #fdf0e8);
-        border-radius: 10px;
-        border-left: 3px solid var(--found);
-        border-right: 3px solid var(--cog);
-        font-size: clamp(1rem, 1.65vw, 1.3rem);
-        text-align: center;
-        color: var(--ink2);
       }
-      .mismatch strong {
-        color: var(--ink);
-        font-weight: 700;
+      .impact-box {
+        flex: 1;
+        padding: clamp(12px, 1.6vh, 22px) clamp(16px, 2vw, 28px);
+        border-radius: 12px;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+      .impact-box.vis {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .impact-lbl {
+        font-size: clamp(0.55rem, 0.82vw, 0.7rem);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 7px;
+        opacity: .7;
+      }
+      .impact-txt {
+        font-size: clamp(0.88rem, 1.35vw, 1.1rem);
+        font-weight: 600;
+        line-height: 1.4;
+      }
+      .impact-sci {
+        background: #eff6ff;
+        border: 1.5px solid var(--found);
+        color: var(--found);
+      }
+      .impact-law {
+        background: #fef9f0;
+        border: 1.5px solid var(--synth);
+        color: var(--synth);
       }
 
       /* ══════════════════════════════════════════════
@@ -849,55 +894,112 @@
       </div>
     </section>
 
-    <!-- ══ SLIDE 4: TIMELINESS (warm off-white) ═ -->
-    <section class="slide" id="s4">
+    <!-- ══ SLIDE 4a: WHY NOW — left column ══ -->
+    <section class="slide" id="s4a">
       <div class="slide-title">Why Now?</div>
-      <div class="s4-quote">
-        "Paleolithic normative cognition meets 21st-century normative
-        complexity"
-      </div>
+      <div class="s4-quote">"Paleolithic normative cognition meets 21st-century normative complexity"</div>
       <div class="two-cols">
         <div class="col col-sci">
           <div class="col-h">A new science is there</div>
           <ul>
-            <li>
-              The <em>cognitive science of norms</em> has emerged as a distinct field
+            <li>The <em>cognitive science of norms</em> has emerged as a distinct field</li>
+            <li>Humans are <em>normative animals</em>
+              <ul class="sub">
+                <li>specialized mechanisms acquire norms from minimal cues</li>
+                <li>almost all research covers children in <em>their own</em> community</li>
+              </ul>
             </li>
-            <li>
-              Humans are <em>normative animals</em> — specialized mechanisms
-              acquire norms from minimal cues
+          </ul>
+        </div>
+        <div class="col col-world s4-col-r">
+          <div class="col-h">The world has transformed</div>
+          <ul>
+            <li>Our societies have become normatively complex
+              <ul class="sub">
+                <li>Migration, globalization, digital life place us in unfamiliar normative environments</li>
+                <li>Legal complexity grows faster than anyone can track</li>
+                <li>Platform norms — <strong>algorithmically enforced, opaque</strong>, fast-changing</li>
+              </ul>
             </li>
-            <li>
-              Almost all research covers children learning norms of
-              <em>their own</em> community
+            <li>Normative ignorance is no longer the exception — it is the rule</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 4b: WHY NOW — right column appears ══ -->
+    <section class="slide" id="s4b">
+      <div class="slide-title">Why Now?</div>
+      <div class="s4-quote">"Paleolithic normative cognition meets 21st-century normative complexity"</div>
+      <div class="two-cols">
+        <div class="col col-sci">
+          <div class="col-h">A new science is there</div>
+          <ul>
+            <li>The <em>cognitive science of norms</em> has emerged as a distinct field</li>
+            <li>Humans are <em>normative animals</em>
+              <ul class="sub">
+                <li>specialized mechanisms acquire norms from minimal cues</li>
+                <li>almost all research covers children in <em>their own</em> community</li>
+              </ul>
             </li>
-            <li>
-              <strong>No unified empirical account of normative ignorance</strong>
-              yet exists
+          </ul>
+        </div>
+        <div class="col col-world s4-col-r" id="col-r-b">
+          <div class="col-h">The world has transformed</div>
+          <ul>
+            <li>Our societies have become normatively complex
+              <ul class="sub">
+                <li>Migration, globalization, digital life place us in unfamiliar normative environments</li>
+                <li>Legal complexity grows faster than anyone can track</li>
+                <li>Platform norms — <strong>algorithmically enforced, opaque</strong>, fast-changing</li>
+              </ul>
+            </li>
+            <li>Normative ignorance is no longer the exception — it is the rule</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLIDE 4c: WHY NOW — impact boxes ══ -->
+    <section class="slide" id="s4c">
+      <div class="slide-title">Why Now?</div>
+      <div class="s4-quote">"Paleolithic normative cognition meets 21st-century normative complexity"</div>
+      <div class="two-cols">
+        <div class="col col-sci">
+          <div class="col-h">A new science is there</div>
+          <ul>
+            <li>The <em>cognitive science of norms</em> has emerged as a distinct field</li>
+            <li>Humans are <em>normative animals</em>
+              <ul class="sub">
+                <li>specialized mechanisms acquire norms from minimal cues</li>
+                <li>almost all research covers children in <em>their own</em> community</li>
+              </ul>
             </li>
           </ul>
         </div>
         <div class="col col-world">
           <div class="col-h">The world has transformed</div>
           <ul>
-            <li>
-              Migration, globalization, digital life place us daily in
-              unfamiliar normative environments
+            <li>Our societies have become normatively complex
+              <ul class="sub">
+                <li>Migration, globalization, digital life place us in unfamiliar normative environments</li>
+                <li>Legal complexity grows faster than anyone can track</li>
+                <li>Platform norms — <strong>algorithmically enforced, opaque</strong>, fast-changing</li>
+              </ul>
             </li>
-            <li>Legal complexity grows faster than anyone can track</li>
-            <li>
-              Platform norms —
-              <strong>algorithmically enforced, opaque</strong>, fast-changing
-            </li>
-            <li>
-              Normative ignorance is no longer the exception — it is the rule
-            </li>
+            <li>Normative ignorance is no longer the exception — it is the rule</li>
           </ul>
         </div>
       </div>
-      <div class="mismatch">
-        People are routinely <strong>held responsible</strong> under assumptions
-        of knowledge that no longer hold.
+      <div class="impact-boxes">
+        <div class="impact-box impact-sci" id="imp-l">
+          <div class="impact-lbl">Scientific contribution</div>
+          <div class="impact-txt">The first unified empirical account of normative ignorance</div>
+        </div>
+        <div class="impact-box impact-law" id="imp-r">
+          <div class="impact-lbl">Legal &amp; policy contribution</div>
+          <div class="impact-txt">Rethinking responsibility ascription for ignorant agents</div>
+        </div>
       </div>
     </section>
 
@@ -954,7 +1056,9 @@
       const hint = document.getElementById("nav-hint");
       let cur = 0,
         s3done = false,
-        s3cdone = false;
+        s3cdone = false,
+        s4bdone = false,
+        s4cdone = false;
 
       function setTheme(dark) {
         const active = dark ? "rgba(255,255,255,.85)" : "rgba(0,0,0,.6)";
@@ -1041,10 +1145,22 @@
         if (cur === 3) {
           scaleDiagram();
         }
-        if (cur === 4) {
-          scaleDiagram();
-          animateS3c();
-        }
+        if (cur === 4) { scaleDiagram(); animateS3c(); }
+        if (cur === 6) { animateS4b(); }
+        if (cur === 7) { animateS4c(); }
+      }
+
+      function animateS4b() {
+        if (s4bdone) return;
+        s4bdone = true;
+        setTimeout(() => document.getElementById("col-r-b")?.classList.add("vis"), 200);
+      }
+
+      function animateS4c() {
+        if (s4cdone) return;
+        s4cdone = true;
+        setTimeout(() => document.getElementById("imp-l")?.classList.add("vis"), 300);
+        setTimeout(() => document.getElementById("imp-r")?.classList.add("vis"), 850);
       }
 
       slides[0].classList.add("active");
