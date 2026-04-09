@@ -433,9 +433,6 @@
         gap: clamp(10px, 1.8vh, 20px);
         padding: 4vh 5vw;
       }
-      /* Keep left column at consistent half-width even when alone */
-      #s4a .two-cols { justify-content: flex-start; }
-      #s4a .col { flex: 0 0 calc(50% - clamp(5px, 0.9vw, 11px)); }
       .s4-quote {
         font-size: clamp(0.82rem, 1.3vw, 1.05rem);
         color: var(--ink3);
@@ -870,7 +867,8 @@
       </div>
     </section>
 
-    <!-- ══ SLIDE 4a: WHY NOW — left column ══ -->
+    <!-- ══ SLIDES 4a–4c: WHY NOW (identical layout, visibility-controlled) ══ -->
+    <!-- 4a: left column only -->
     <section class="slide" id="s4a">
       <div class="slide-title">Why Now?</div>
       <div class="s4-quote">"Paleolithic normative cognition meets 21st-century normative complexity"</div>
@@ -887,10 +885,33 @@
             </li>
           </ul>
         </div>
+        <div class="col col-world" style="visibility:hidden">
+          <div class="col-h">The world has transformed</div>
+          <ul>
+            <li>Our societies have become normatively complex
+              <ul class="sub">
+                <li>Migration, globalization, digital life place us in unfamiliar normative environments</li>
+                <li>Legal complexity grows faster than anyone can track</li>
+                <li>Platform norms — <strong>algorithmically enforced, opaque</strong>, fast-changing</li>
+              </ul>
+            </li>
+            <li>Normative ignorance is no longer the exception — it is the rule</li>
+          </ul>
+        </div>
+      </div>
+      <div class="impact-boxes" style="visibility:hidden">
+        <div class="impact-box impact-sci">
+          <div class="impact-lbl">Scientific contribution</div>
+          <div class="impact-txt">The first unified empirical account of normative ignorance</div>
+        </div>
+        <div class="impact-box impact-law">
+          <div class="impact-lbl">Legal &amp; policy contribution</div>
+          <div class="impact-txt">Rethinking responsibility ascription for ignorant agents</div>
+        </div>
       </div>
     </section>
 
-    <!-- ══ SLIDE 4b: WHY NOW — right column appears ══ -->
+    <!-- 4b: both columns -->
     <section class="slide" id="s4b">
       <div class="slide-title">Why Now?</div>
       <div class="s4-quote">"Paleolithic normative cognition meets 21st-century normative complexity"</div>
@@ -907,7 +928,7 @@
             </li>
           </ul>
         </div>
-        <div class="col col-world" id="col-r-b">
+        <div class="col col-world">
           <div class="col-h">The world has transformed</div>
           <ul>
             <li>Our societies have become normatively complex
@@ -921,9 +942,19 @@
           </ul>
         </div>
       </div>
+      <div class="impact-boxes" style="visibility:hidden">
+        <div class="impact-box impact-sci">
+          <div class="impact-lbl">Scientific contribution</div>
+          <div class="impact-txt">The first unified empirical account of normative ignorance</div>
+        </div>
+        <div class="impact-box impact-law">
+          <div class="impact-lbl">Legal &amp; policy contribution</div>
+          <div class="impact-txt">Rethinking responsibility ascription for ignorant agents</div>
+        </div>
+      </div>
     </section>
 
-    <!-- ══ SLIDE 4c: WHY NOW — impact boxes ══ -->
+    <!-- 4c: both columns + impact boxes -->
     <section class="slide" id="s4c">
       <div class="slide-title">Why Now?</div>
       <div class="s4-quote">"Paleolithic normative cognition meets 21st-century normative complexity"</div>
@@ -955,11 +986,11 @@
         </div>
       </div>
       <div class="impact-boxes">
-        <div class="impact-box impact-sci" id="imp-l">
+        <div class="impact-box impact-sci">
           <div class="impact-lbl">Scientific contribution</div>
           <div class="impact-txt">The first unified empirical account of normative ignorance</div>
         </div>
-        <div class="impact-box impact-law" id="imp-r">
+        <div class="impact-box impact-law">
           <div class="impact-lbl">Legal &amp; policy contribution</div>
           <div class="impact-txt">Rethinking responsibility ascription for ignorant agents</div>
         </div>
