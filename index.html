@@ -51,7 +51,7 @@
         justify-content: center;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: opacity 0.15s ease;
       }
       .slide.active {
         opacity: 1;
@@ -339,15 +339,6 @@
         justify-content: center;
         text-align: center;
         line-height: 1.3;
-        opacity: 0;
-        transform: scale(0.65);
-        transition:
-          opacity 0.5s ease,
-          transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
-      }
-      .nd.vis {
-        opacity: 1;
-        transform: scale(1);
       }
       .nd b {
         font-size: 18px;
@@ -432,11 +423,6 @@
         stroke: rgba(0, 0, 0, 0.14);
         stroke-width: 1.5;
         stroke-dasharray: 6 5;
-        opacity: 0;
-        transition: opacity 0.55s ease;
-      }
-      .ap.vis {
-        opacity: 1;
       }
 
       /* ══════════════════════════════════════════════
@@ -504,12 +490,6 @@
         content: "– ";
         color: var(--ink3);
       }
-      /* Right column — hidden until animated in */
-      .s4-col-r {
-        opacity: 0;
-        transition: opacity 0.6s ease;
-      }
-      .s4-col-r.vis { opacity: 1; }
       /* Impact boxes */
       .impact-boxes {
         display: flex;
@@ -522,13 +502,6 @@
         padding: clamp(12px, 1.6vh, 22px) clamp(16px, 2vw, 28px);
         border-radius: 12px;
         text-align: center;
-        opacity: 0;
-        transform: translateY(10px);
-        transition: opacity 0.5s ease, transform 0.5s ease;
-      }
-      .impact-box.vis {
-        opacity: 1;
-        transform: translateY(0);
       }
       .impact-lbl {
         font-size: clamp(0.55rem, 0.82vw, 0.7rem);
@@ -911,7 +884,7 @@
             </li>
           </ul>
         </div>
-        <div class="col col-world s4-col-r">
+        <div class="col col-world">
           <div class="col-h">The world has transformed</div>
           <ul>
             <li>Our societies have become normatively complex
@@ -944,7 +917,7 @@
             </li>
           </ul>
         </div>
-        <div class="col col-world s4-col-r" id="col-r-b">
+        <div class="col col-world" id="col-r-b">
           <div class="col-h">The world has transformed</div>
           <ul>
             <li>Our societies have become normatively complex
@@ -1054,11 +1027,7 @@
       const slides = [...document.querySelectorAll(".slide")];
       const prog = document.getElementById("progress");
       const hint = document.getElementById("nav-hint");
-      let cur = 0,
-        s3done = false,
-        s3cdone = false,
-        s4bdone = false,
-        s4cdone = false;
+      let cur = 0;
 
       function setTheme(dark) {
         const active = dark ? "rgba(255,255,255,.85)" : "rgba(0,0,0,.6)";
@@ -1100,67 +1069,12 @@
       }
       window.addEventListener("resize", scaleDiagram);
 
-      function animateS3() {
-        if (s3done) return;
-        s3done = true;
-        const show = (id, ms) =>
-          setTimeout(
-            () => document.getElementById(id)?.classList.add("vis"),
-            ms,
-          );
-        show("n-c", 150);
-        show("n-i", 310);
-        show("a-ci", 650);
-        show("n-j", 900);
-        show("a-ij", 1180);
-        show("a-jc", 1310);
-      }
-
-      function animateS3c() {
-        if (s3cdone) return;
-        s3cdone = true;
-        const show = (id, ms) =>
-          setTimeout(
-            () => document.getElementById(id)?.classList.add("vis"),
-            ms,
-          );
-        show("n-fc", 300);
-        show("a-fc-c", 520);
-        show("a-fi-c", 640);
-        show("n-sc", 1300);
-        show("a-cs-c", 1520);
-        show("a-is-c", 1640);
-        show("a-js-c", 1700);
-      }
-
       function goTo(n) {
         slides[cur].classList.remove("active");
         cur = Math.max(0, Math.min(n, slides.length - 1));
         slides[cur].classList.add("active");
         refreshDots();
-        if (cur === 2) {
-          scaleDiagram();
-          animateS3();
-        }
-        if (cur === 3) {
-          scaleDiagram();
-        }
-        if (cur === 4) { scaleDiagram(); animateS3c(); }
-        if (cur === 6) { animateS4b(); }
-        if (cur === 7) { animateS4c(); }
-      }
-
-      function animateS4b() {
-        if (s4bdone) return;
-        s4bdone = true;
-        setTimeout(() => document.getElementById("col-r-b")?.classList.add("vis"), 200);
-      }
-
-      function animateS4c() {
-        if (s4cdone) return;
-        s4cdone = true;
-        setTimeout(() => document.getElementById("imp-l")?.classList.add("vis"), 300);
-        setTimeout(() => document.getElementById("imp-r")?.classList.add("vis"), 850);
+        if (cur >= 2 && cur <= 4) scaleDiagram();
       }
 
       slides[0].classList.add("active");
