@@ -433,6 +433,9 @@
         gap: clamp(10px, 1.8vh, 20px);
         padding: 4vh 5vw;
       }
+      /* Keep left column at consistent half-width even when alone */
+      #s4a .two-cols { justify-content: flex-start; }
+      #s4a .col { flex: 0 0 calc(50% - clamp(5px, 0.9vw, 11px)); }
       .s4-quote {
         font-size: clamp(0.82rem, 1.3vw, 1.05rem);
         color: var(--ink3);
