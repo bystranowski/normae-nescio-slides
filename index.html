@@ -537,32 +537,42 @@
       .pi-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
         gap: clamp(10px, 1.4vw, 18px);
         width: 100%;
         max-width: min(1200px, 94vw);
+        flex: 1;
+        min-height: 0;
       }
       .pi-card {
-        background: var(--card);
         border-radius: 12px;
-        padding: clamp(14px, 1.8vh, 24px) clamp(16px, 2vw, 26px);
+        padding: clamp(18px, 2.6vh, 38px) clamp(20px, 2.4vw, 36px);
         border: 1.5px solid var(--card-b);
+        border-left: 5px solid var(--pi-accent, var(--card-b));
+        background: var(--pi-bg, var(--card));
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
-
       .pi-lbl {
-        font-size: clamp(0.58rem, 0.88vw, 0.74rem);
-        letter-spacing: 2px;
+        font-size: clamp(0.55rem, 0.82vw, 0.7rem);
+        letter-spacing: 2.5px;
         text-transform: uppercase;
-        color: var(--ink3);
-        margin-bottom: 7px;
+        color: var(--pi-accent, var(--ink3));
+        opacity: .7;
+        margin-bottom: clamp(8px, 1.2vh, 16px);
       }
-      .pi-val {
-        font-size: clamp(0.88rem, 1.35vw, 1.1rem);
+      .pi-anchor {
+        font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+        font-weight: 700;
+        color: var(--pi-accent, var(--ink));
+        line-height: 1.2;
+        margin-bottom: clamp(6px, 1vh, 12px);
+      }
+      .pi-desc {
+        font-size: clamp(0.78rem, 1.15vw, 0.95rem);
         color: var(--ink2);
-        line-height: 1.6;
-      }
-      .pi-card.full .pi-val {
-        color: #1a6640;
-        font-size: clamp(0.95rem, 1.45vw, 1.2rem);
+        line-height: 1.5;
       }
 
       /* ══════════════════════════════════════════════
@@ -997,21 +1007,23 @@
     <section class="slide" id="s5">
       <div class="slide-title">Why Me?</div>
       <div class="pi-grid">
-        <div class="pi-card">
+        <div class="pi-card" style="--pi-accent:var(--found);--pi-bg:#eff6ff;">
           <div class="pi-lbl">Formal training</div>
-          <div class="pi-val">Law &thinsp;·&thinsp; Philosophy &thinsp;·&thinsp; Law &amp; Economics</div>
+          <div class="pi-anchor">Law &thinsp;·&thinsp; Philosophy<br>Law &amp; Economics</div>
         </div>
-        <div class="pi-card">
+        <div class="pi-card" style="--pi-accent:var(--cog);--pi-bg:#fff3ed;">
           <div class="pi-lbl">Empirical methods</div>
-          <div class="pi-val">~20 publications using experimental and computational methods</div>
+          <div class="pi-anchor">~20 publications</div>
+          <div class="pi-desc">experimental and computational methods</div>
         </div>
-        <div class="pi-card">
+        <div class="pi-card" style="--pi-accent:var(--int);--pi-bg:#f0faf4;">
           <div class="pi-lbl">Cross-disciplinary experience</div>
-          <div class="pi-val">ERC <em>Biouncertainty</em> &thinsp;·&thinsp; Max Planck (Bonn)</div>
+          <div class="pi-anchor">ERC <em>Biouncertainty</em><br>Max Planck (Bonn)</div>
         </div>
-        <div class="pi-card">
+        <div class="pi-card" style="--pi-accent:var(--jud);--pi-bg:#f5f0ff;">
           <div class="pi-lbl">Leadership</div>
-          <div class="pi-val">Two research teams — cognitive scientists, philosophers, linguists</div>
+          <div class="pi-anchor">2 research teams</div>
+          <div class="pi-desc">cognitive scientists, philosophers, linguists</div>
         </div>
       </div>
     </section>
