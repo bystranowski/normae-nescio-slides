@@ -130,36 +130,34 @@
         width: 100%;
         max-height: 80%;
       }
-      /* Wrapper carries the absolute position, shadow, and clip */
-      .ss-wrap {
+      /* Each image absolutely placed — all stay within 0–100vw */
+      .screenshot {
         position: absolute;
         width: 45vw;
-        max-height: 37vh;
-        overflow: hidden;
+        max-height: 37vh; /* hard cap so bottom positions stay predictable */
+        display: block;
+        object-fit: contain;
+        object-position: top;
         border-radius: 10px;
         box-shadow:
           0 16px 56px rgba(0, 0, 0, 0.65),
           0 0 0 1px rgba(255, 255, 255, 0.08);
       }
-      .ss-wrap:nth-child(1) { left: 0;    top: 2%; }
-      .ss-wrap:nth-child(2) { left: 6vw;  top: 62%; }
-      .ss-wrap:nth-child(3) { right: 0;   top: 32%; }
-
-      .screenshot {
-        display: block;
-        width: 100%;
-        max-height: 37vh;
-        object-fit: contain;
-        object-position: top;
+      /* Horizontal spans (all within 0–100vw):
+           img1: 0–48vw  |  img2: 26–74vw  |  img3: 52–100vw
+         Vertical: img1 top, img3 slightly lower, img2 at bottom —
+         no vertical overlap in the shared x-regions               */
+      .screenshot:nth-child(1) {
+        left: 0;
+        top: 2%;
       }
-      /* Frosted overlay — covers body text, leaves title strip clear */
-      .ss-body-mask {
-        position: absolute;
-        inset: 20% 0 0 0;
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
-        background: rgba(8, 8, 18, 0.42);
-        border-radius: 0 0 10px 10px;
+      .screenshot:nth-child(2) {
+        left: 6vw;
+        top: 62%;
+      }
+      .screenshot:nth-child(3) {
+        right: 0;
+        top: 32%;
       }
       .hook-cap {
         font-size: clamp(0.78rem, 1.2vw, 0.95rem);
@@ -616,18 +614,9 @@
     <section class="slide" id="s1">
       <div class="hook-q">What are the norms?</div>
       <div class="screenshots">
-        <div class="ss-wrap">
-          <img class="screenshot" src="slides/Selection_955.png" alt="" />
-          <div class="ss-body-mask"></div>
-        </div>
-        <div class="ss-wrap">
-          <img class="screenshot" src="slides/Selection_955a.png" alt="" />
-          <div class="ss-body-mask"></div>
-        </div>
-        <div class="ss-wrap">
-          <img class="screenshot" src="slides/Selection_955b.png" alt="" />
-          <div class="ss-body-mask"></div>
-        </div>
+        <img class="screenshot" src="slides/Selection_955_blur.png" alt="" />
+        <img class="screenshot" src="slides/Selection_955a_blur.png" alt="" />
+        <img class="screenshot" src="slides/Selection_955b_blur.png" alt="" />
       </div>
       <!-- <div class="hook-cap">
         Real people, genuinely uncertain about the norms governing AI use in
